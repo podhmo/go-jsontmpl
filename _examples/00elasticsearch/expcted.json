@@ -1,0 +1,25 @@
+{
+    "size": 5,
+    "query": {
+        "bool": {
+            "should": [
+                {
+                    "match": {
+                        "word.autocomplete": {
+                            "query": "え"
+                        }
+                    }
+                },
+                {
+                    "match": {
+                        "word.readingform": {
+                            "query": "え",
+                            "fuzziness": "AUTO",
+                            "operator": "and"
+                        }
+                    }
+                }
+            ]
+        }
+    }
+}
