@@ -8,11 +8,15 @@ import (
 	gojsontmpl "github.com/podhmo/go-jsontmpl"
 )
 
-type QueryBuilder struct {
+// SearchQueryBuilder for search query.
+type SearchQueryBuilder struct {
 	builder *gojsontmpl.Builder
 	Params  struct {
+		// Word: query
 		Word string `target:"${Word}"`
-		Size int    `target:"${Size:int}"`
+
+		// Size: number of limit
+		Size int `target:"${Size:int}"`
 	}
 }
 
@@ -42,13 +46,13 @@ const queryTmpl = `{
     }
 }`
 
-func NewQueryBuilder(c *gojsontmpl.Config) *QueryBuilder {
-	return &QueryBuilder{
+func NewSearchQueryBuilder(c *gojsontmpl.Config) *SearchQueryBuilder {
+	return &SearchQueryBuilder{
 		builder: c.NewBuilder(queryTmpl),
 	}
 }
 
-func (b *QueryBuilder) ToReader() (*bytes.Buffer, error) {
+func (b *SearchQueryBuilder) ToReader() (*bytes.Buffer, error) {
 	replacer := strings.NewReplacer(
 		`"${Size:int}"`, strconv.Itoa(b.Params.Size),
 		`"${Word}"`, strconv.Quote(b.Params.Word),
@@ -56,18 +60,18 @@ func (b *QueryBuilder) ToReader() (*bytes.Buffer, error) {
 	return b.builder.ToReader(replacer.Replace)
 }
 
-func (b *QueryBuilder) Size(v int) *QueryBuilder {
+func (b *SearchQueryBuilder) Size(v int) *SearchQueryBuilder {
 	copied := b.Params
 	copied.Size = v
-	return &QueryBuilder{builder: b.builder,
+	return &SearchQueryBuilder{builder: b.builder,
 		Params: copied,
 	}
 }
 
-func (b *QueryBuilder) Word(v string) *QueryBuilder {
+func (b *SearchQueryBuilder) Word(v string) *SearchQueryBuilder {
 	copied := b.Params
 	copied.Word = v
-	return &QueryBuilder{builder: b.builder,
+	return &SearchQueryBuilder{builder: b.builder,
 		Params: copied,
 	}
 }

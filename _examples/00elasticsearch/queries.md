@@ -1,19 +1,28 @@
+# query
+
+query package is json builder package for accessing elasticsearch, in internal use.
+
+## SearchQuery
+
+for search query.
+
+```json
 {
-    "size": 5,
+    "size": "${Size:int}",
     "query": {
         "bool": {
             "should": [
                 {
                     "match": {
                         "word.autocomplete": {
-                            "query": "え"
+                            "query": "${Word}"
                         }
                     }
                 },
                 {
                     "match": {
                         "word.readingform": {
-                            "query": "え",
+                            "query": "${Word}",
                             "fuzziness": "AUTO",
                             "operator": "and"
                         }
@@ -23,3 +32,4 @@
         }
     }
 }
+```

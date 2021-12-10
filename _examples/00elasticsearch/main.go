@@ -15,7 +15,7 @@ func main() {
 	// TODO: required
 	// TODO: gentle error message
 	// TODO: with default
-	b := query.NewQueryBuilder(c).Size(10).Word("え")
+	b := query.NewSearchQueryBuilder(c).Size(10).Word("え")
 	buf, err := b.ToReader()
 	if err != nil {
 		panic(err)
